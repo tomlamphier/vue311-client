@@ -21,7 +21,6 @@
     </l-map>  
   </div>
 </template>
-
 <script>
 import { LMap, LTileLayer, LGeoJson } from 'vue2-leaflet'
 import { ReferenceChart } from 'vue-choropleth'
