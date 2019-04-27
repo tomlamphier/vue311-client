@@ -58,6 +58,9 @@ export default {
         this.selcompl.push(cps[i].type)
       }
     }
+  },
+  computed: {
+    
   }
 }
 </script>

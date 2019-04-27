@@ -21,8 +21,9 @@
   Finally, go to the <span style="color: green; font-weight: bold;">Map
   </span> tab.  You will see a map of the area(s) you selected broken down 
   by neighborhood.  Each neighborhood will be colorized according to how 
-  it ranks relative to the selected neighborhoods for the complaint types that
-  were selected. 
+  it ranks relative to the selected neighborhoods for the complaint types 
+  in question. 
+  <br/><br/>
   </div>
 </template>
 

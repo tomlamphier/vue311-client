@@ -1,6 +1,10 @@
 <template>
   <div id="mymap">
-<l-map
+    <ColorControl :opc="opacity"
+      v-on:update:opacity="opacity = $event"
+      v-on:update:colorscale="colorscale = $event"
+    />
+<l-map v-if="mapcheck"
       :bounds="bounds"
       :zoom="zoom"
       :center="center"
@@ -12,19 +16,25 @@
         :url="url"
         :attribution="attribution"
       />
-      <l-geo-json
+      <l-geo-json v-if="displaygeo"
         :geojson="geodata"
         :options="goptions"
         :options-style="styleFunction"
       />
-      <l-reference-chart v-if="chorodata" title="Complaints / Square Mile, 2016-2018" :colorScale="colorScale" :min="minval" :max="maxval" position="topright"/>
+      <l-reference-chart v-if="chorodata && maxval > 0" title="Complaints / Square Mile, 2016-2018" :colorScale="colorscale" :min="minval" :max="maxval" position="topright"/>
     </l-map>  
+    <div v-if="!mapcheck" id="mapmsg">
+      {{mapmsg1}} <br/>
+      {{mapmsg2}}
+    </div>
   </div>
 </template>
 <script>
 import { LMap, LTileLayer, LGeoJson } from 'vue2-leaflet'
 import { ReferenceChart } from 'vue-choropleth'
 import chroma from 'chroma-js'
+import ColorControl from './ColorControl'
+import Vue from 'vue'
 export default {
   name: 'DisplayMap',
   data () {
@@ -47,16 +57,22 @@ export default {
       chorodata2: null,
       minval: 0,
       maxval: 0,
-      colorScale: ["e7d990", "e9ae7b", "de7062"],
       geoloaded: false,
-      choroloaded: false
+      choroloaded: false,
+      opacity: "50",
+      colorscale: chroma.brewer.OrRd,
+      displaygeo: true,
+      mapcheck: true,
+      mapmsg1: "",
+      mapmsg2: ""
     }
   },
   components: {
       LMap,
       LTileLayer,
       LGeoJson,
-      'l-reference-chart': ReferenceChart
+      'l-reference-chart': ReferenceChart,
+      ColorControl
   },
   methods: {
     getColor: function(newVal) {
@@ -64,7 +80,7 @@ export default {
         return '#ffffff'
       }
       let normalized = (newVal - this.minval) / (this.maxval - this.minval)
-      return chroma.scale(this.colorScale)
+      return chroma.scale(this.colorscale)
         .mode("lch")(normalized)
         .hex()
     },
@@ -84,13 +100,20 @@ export default {
   watch: {
     curIndex: function(val) {
       if (this.curIndex == 3) { 
-          this.map = this.$refs.map.mapObject
-          this.map.invalidateSize()
+          this.mapcheck = true
+          this.mapmsg1 = ""
+          this.mapmsg2 = ""
+          //this.map = this.$refs.map.mapObject
+          //this.map.invalidateSize()
           this.geoloaded = false
           this.choroloaded = false
 
           let dat = {
             neighborhoods: this.selnh
+          }
+          if (this.selnh.length == 0) {
+            this.mapcheck = false
+            this.mapmsg1 = "No neighborhoods selected."
           }
           this.axios.post('http://localhost:8080/nhoodgeo', dat)
           .then(response => {
@@ -107,6 +130,10 @@ export default {
           dat = {
             neighborhoods: this.selnh,
             complaints: this.selcompl
+          }
+          if (this.selcompl.length==0) {
+            this.mapcheck = false
+            this.mapmsg2 = "No complaints selected."
           }
 
           this.axios.post('http://localhost:8080/choropleth', dat)
@@ -126,10 +153,15 @@ export default {
                }
              }
              this.choroloaded = true
+             if (this.minval == this.maxval) {
+               this.minval = 0
+               this.maxval *= 2
+             }
 
           })
           .catch(error => console.log(error))
       }
+
     },
     geoloaded: function() {
       if (this.geoloaded && this.choroloaded) {
@@ -142,6 +174,23 @@ export default {
         this.chorodata = this.chorodata2
         this.geodata = this.geodata2
       }
+    },
+    opacitydecimal: function() {
+      var vm = this
+      vm.displaygeo = false
+      Vue.nextTick(function() {
+        vm.displaygeo = true
+      })
+    },
+    colorscale: function() {
+      var vm = this
+      vm.displaygeo = false
+      var savminval = vm.minval
+      vm.minval = -1000
+      Vue.nextTick(function() {
+        vm.displaygeo = true
+        vm.minval = savminval
+      })
     }
   },
   created() {
@@ -153,15 +202,19 @@ export default {
         onEachFeature: this.onEachFeatureFunction
       }
     },
+    opacitydecimal () {
+      return parseFloat(this.opacity, 10) / 100
+      this.map.invalidateSize()
+    },
     styleFunction () {
       const fillColor = this.fillColor; 
       return () => {
         return {
           weight: 1,
-          color: 'red',
-          opacity: 1,
+          color: 'green',
+          opacity: 0.5,
           fillColor: fillColor,
-          fillOpacity: 0.15
+          fillOpacity: this.opacitydecimal
         }
       }
     },
@@ -170,22 +223,10 @@ export default {
         let nh = feature.properties.neighborhood
         let ct = this.getParam(nh)
         let col = this.getColor(ct.count)
-        console.log(col)
-        console.log(layer)
         layer.bindTooltip('<div>' + feature.properties.neighborhood 
-          + '</br/>Rank: ' + ct.rank + ' (low to high)'  + '</div>')
-        layer.options.fillColor = col
-        //layer.on('mouseover', function(e) {
-        //  e.target.setStyle({
-        //    fillColor: '#ff0033',
-        //  })
-        //})
-        //layer.on('mouseout', function(e) {
-        //  e.target.setStyle({
-        //    fillColor: '#ff00ff',
-        //  })
-        //})
-        
+          + '<br/>Score: ' + ct.count 
+          + '</div>')
+        layer.options.fillColor = col        
       }
     },
   },
@@ -206,5 +247,9 @@ export default {
 h1 {
     margin-top: 15px;
     margin-left: 10px;
+}
+#mapmsg {
+  color: orange;
+  font-weight: bold;
 }
 </style>
