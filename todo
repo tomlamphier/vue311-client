@@ -1,8 +1,4 @@
 To Do List for vue311 Project
 -----------------------------
 
-1.  Create class for choropleth query result.
-
-2.  Controller for choropleth endpoint.
-
-3.  Begin process for summing counts in controller.
+Just completed edge cases.
