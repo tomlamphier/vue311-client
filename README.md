@@ -1,7 +1,7 @@
 # nyc-neighborhood-client
 Client front end for NYC Neighborhood project
 
-Project created by Tom Lamphier, thomaslamphier@gmail.com
+Created by Tom Lamphier, thomaslamphier@gmail.com
 
 ## About NYC Neighborhood
 
