@@ -34,34 +34,34 @@ The NYC Neighborhood Project was built on a Mac OSX computer. It should work wit
 2. Install the server component--see repo nyc-neighborhood-server.
 3. Start server component.
 4. Start client:
-```
-npm run dev # brings it up on port 80
-```
+>```
+>npm run dev # brings it up on port 80
+>```
 5. In a browser, go to address "http://localhost".
 
 ## About the Client
 
 The NYC Neighborhood front end uses the Vue, an open source framework that is part of the node / npm ecosystem.  These are the components that make up the app:
 
-| Component        | Description                                |
-|------------------|--------------------------------------------|
-| App              | Home page.                                 |
-| Home             | Welcome                                    |
-| ComplaintList    | Data table for selecting complaint types   |
-|                  | of interest.                               |
-| NeighborhoodList | Data table for selecting neighborhoods.    |
-| DisplayMap       | Map that displays a color-coded            |
-|                  | (choropleth) comparison of neighborhoods.  |
-| ColorControl     | Map styling options.                       |
+>| Component        | Description                                |
+>|------------------|--------------------------------------------|
+>| App              | Home page.                                 |
+>| Home             | Welcome                                    |
+>| ComplaintList    | Data table for selecting complaint types   |
+>|                  | of interest.                               |
+>| NeighborhoodList | Data table for selecting neighborhoods.    |
+>| DisplayMap       | Map that displays a color-coded            |
+>|                  | (choropleth) comparison of neighborhoods.  |
+>| ColorControl     | Map styling options.                       |
 
 ## Deploying to a Server
 
 1. Package the client app:
-```
-npm run build
-```
+>```
+>npm run build
+>```
 2. Copy directory dist to target machine.
 3. Run mini-http server:
-```
-serve -l 80 -s dist
-```
+>```
+>serve -l 80 -s dist
+>```
