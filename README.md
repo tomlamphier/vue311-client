@@ -25,9 +25,9 @@ The NYC Neighborhood Project was built on a Mac OSX computer. It should work wit
 
 1. Clone this repo to your development machine.
 2. In project directory:
-```
-npm install
-```
+>```
+>npm install
+>```
 
 ## Running the Client
 1. Build the back end database--see repo nyc-neighborhood-database.
@@ -53,7 +53,6 @@ The NYC Neighborhood front end uses the Vue, an open source framework that is pa
 | DisplayMap       | Map that displays a color-coded            |
 |                  | (choropleth) comparison of neighborhoods.  |
 | ColorControl     | Map styling options.                       |
-|------------------|--------------------------------------------|
 
 ## Deploying to a Server
 
