@@ -103,8 +103,9 @@ export default {
           this.mapcheck = true
           this.mapmsg1 = ""
           this.mapmsg2 = ""
-          //this.map = this.$refs.map.mapObject
-          //this.map.invalidateSize()
+          // uncommented these next two lines
+          this.map = this.$refs.map.mapObject
+          this.map.invalidateSize()
           this.geoloaded = false
           this.choroloaded = false
 
@@ -118,12 +119,17 @@ export default {
           this.axios.post('http://localhost:8080/nhoodgeo', dat)
           .then(response => {
              let minlat = response.data.minlat
+             console.log(minlat)
              let maxlat = response.data.maxlat
+             console.log(maxlat)
              let minlng = response.data.minlng
+             console.log(minlng)
              let maxlng = response.data.maxlng
+             console.log(maxlng)
              this.bounds = L.latLngBounds([[minlat, minlng], [maxlat, maxlng]])
              this.geodata2 = JSON.parse(response.data.geodata)
              this.geoloaded = true
+             console.log("aaa")
           })
           .catch(error => console.log(error))
 

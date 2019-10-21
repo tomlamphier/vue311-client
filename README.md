@@ -35,8 +35,9 @@ The NYC Neighborhood Project was built on a Mac OSX computer. It should work wit
 3. Start server component.
 4. Start client:
 >```
->npm run dev # brings it up on port 80
+>sudo npm run dev # brings it up on port 80
 >```
+> Note: To avoid a port conflict, ensure that nothing is already using port 80 when you start the app.
 5. In a browser, go to address "http://localhost".
 
 ## About the Client
