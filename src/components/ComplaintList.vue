@@ -61,8 +61,7 @@ export default {
     }
   },
   created() {
-      this.axios.get('http://localhost:8080/complaints')
-        //.then(response => (this.complaints = response.data))
+      this.axios.get(this.$serverurl + '/complaints')
         .then(response => {
             this.complaints = response.data
             this.isLoaded = true
@@ -87,7 +86,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   table {
       font-size: 12px;

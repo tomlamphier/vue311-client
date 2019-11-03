@@ -75,7 +75,7 @@ export default {
     }
   },
   created() {
-      this.axios.get('http://localhost:8080/neighborhoods')
+      this.axios.get(this.$serverurl + '/neighborhoods')
         //.then(response => (this.complaints = response.data))
         .then(response => {
             this.neighborhoods = response.data

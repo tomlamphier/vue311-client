@@ -13,7 +13,7 @@ are three parts to the project:
 2. Vue front end (this repo)
 3. Spring Boot server (github repo nyc-neighborhood-server)
 
-The URL for the live app is
+The URL for the live app is [datasciex.com/nyc-neighborhood](datasciex.com/nyc-neighborhood).
 
 The NYC Neighborhood Project was built on a Mac OSX computer. It should work without modification on any Linux-based OS.  Windows, maybe with some minor changes.
 
@@ -56,6 +56,7 @@ The NYC Neighborhood front end uses the Vue, an open source framework that is pa
 >| ColorControl     | Map styling options.                       |
 
 ## Deploying to a Server
+### Run as Standalone App 
 
 1. Package the client app:
 >```
@@ -66,3 +67,23 @@ The NYC Neighborhood front end uses the Vue, an open source framework that is pa
 >```
 >serve -l 80 -s dist
 >```
+
+### Run in a Sub-Directory of an Existing Site
+
+1.  Uncomment line and set directory in config/index.js (in 2 places):
+>```
+>//assetsPublicPath: '/your-subdirectory',
+>```
+2.  Update URL in src/main.js:
+>```
+>Vue.prototype.$serverurl = 'http://localhost:8080'
+>// replace localhost with your domain name
+>```
+
+3.  Package the client app:
+>```
+>npm run build
+>```
+4.  Allocate sub-directory off your website's root.
+
+5.  Upload contents of dist directory to above sub-directory.

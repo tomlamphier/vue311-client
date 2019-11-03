@@ -103,7 +103,6 @@ export default {
           this.mapcheck = true
           this.mapmsg1 = ""
           this.mapmsg2 = ""
-          // uncommented these next two lines
           this.map = this.$refs.map.mapObject
           this.map.invalidateSize()
           this.geoloaded = false
@@ -116,20 +115,15 @@ export default {
             this.mapcheck = false
             this.mapmsg1 = "No neighborhoods selected."
           }
-          this.axios.post('http://localhost:8080/nhoodgeo', dat)
+          this.axios.post(this.$serverurl + '/nhoodgeo', dat)
           .then(response => {
              let minlat = response.data.minlat
-             console.log(minlat)
              let maxlat = response.data.maxlat
-             console.log(maxlat)
              let minlng = response.data.minlng
-             console.log(minlng)
              let maxlng = response.data.maxlng
-             console.log(maxlng)
              this.bounds = L.latLngBounds([[minlat, minlng], [maxlat, maxlng]])
              this.geodata2 = JSON.parse(response.data.geodata)
              this.geoloaded = true
-             console.log("aaa")
           })
           .catch(error => console.log(error))
 
@@ -142,7 +136,7 @@ export default {
             this.mapmsg2 = "No complaints selected."
           }
 
-          this.axios.post('http://localhost:8080/choropleth', dat)
+          this.axios.post(this.$serverurl + '/choropleth', dat)
           .then(response => {
              this.chorodata2 = response.data.counts
              if (this.chorodata2.length > 0) {

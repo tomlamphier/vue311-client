@@ -18,6 +18,7 @@ Vue.use(VueAxios, axios)
 Vue.use(DatatableFactory)
 
 Vue.config.productionTip = false
+Vue.prototype.$serverurl = 'http://localhost:8080'
 delete L.Icon.Default.prototype._getIconUrl
 
 L.Icon.Default.mergeOptions({
