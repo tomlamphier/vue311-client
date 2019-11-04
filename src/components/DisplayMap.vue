@@ -21,7 +21,7 @@
         :options="goptions"
         :options-style="styleFunction"
       />
-      <l-reference-chart v-if="chorodata && maxval > 0" title="Complaints / Square Mile, 2016-2018" :colorScale="colorscale" :min="minval" :max="maxval" position="topright"/>
+      <l-reference-chart v-if="chorodata && maxval > 0" title="Complaints / Square Mile, 2017-Present" :colorScale="colorscale" :min="minval" :max="maxval" position="topright"/>
     </l-map>  
     <div v-if="!mapcheck" id="mapmsg">
       {{mapmsg1}} <br/>
