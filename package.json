@@ -13,11 +13,12 @@
     "axios": "^0.18.0",
     "bootstrap-vue": "^2.0.0-rc.13",
     "jquery": "^3.3.1",
+    "leaflet": "^1.7.1",
     "leaflet.icon.glyph": "^0.2.1",
     "vue": "^2.5.2",
     "vue-axios": "^2.1.4",
     "vue-choropleth": "^0.2.1",
-    "vue2-leaflet": "^1.2.3",
+    "vue2-leaflet": "^2.7.0",
     "vuejs-datatable": "^1.7.0"
   },
   "devDependencies": {
